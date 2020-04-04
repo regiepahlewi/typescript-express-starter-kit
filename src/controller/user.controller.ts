@@ -23,6 +23,7 @@ export class UserController extends BaseController implements IController {
     async save(request: Request, response: Response, next: NextFunction) {
         this.validator = [
             { name: 'firstName', validation: 'required' },
+            { name: 'firstName', validation: 'max', value: 255 },
             { name: 'lastName', validation: 'required' }
         ]
         
