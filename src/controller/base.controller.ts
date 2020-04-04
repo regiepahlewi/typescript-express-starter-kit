@@ -24,6 +24,14 @@ export class BaseController {
                     !Object.values(body)[Object.keys(body).findIndex(val => val === field[i].name)]) {
                     res.push(field[i].name + ' is required')
                 }
+            } else if (field[i].validation === 'min') {
+
+            } else if (field[i].validation === 'max') {
+
+            } else if (field[i].validation === 'regex') {
+
+            } else {
+                return;
             }
         }
 
