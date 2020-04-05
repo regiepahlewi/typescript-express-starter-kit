@@ -34,7 +34,9 @@ export class RegistrationController extends BaseController implements IControlle
             ]
 
             const validate = this.validateRequest(request.body, this.validator);
-            request.body = this.convertToNull(request.body, ['dob']);
+            request.body = this.dateFormat(request.body, ['dob']);
+            
+            console.log(request.body);
 
             if (validate.length > 0) {
                 this.res = this.commonResponse(400, validate);

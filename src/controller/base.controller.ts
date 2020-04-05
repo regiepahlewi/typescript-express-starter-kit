@@ -50,7 +50,11 @@ export class BaseController {
 
     dateFormat(body: any, field: string[], format?: string): any {
         for (const data of field) {
-            body[data] = this.dateFormater(body[data], format)
+            if (body[data] !== '' && body[data]) {
+                body[data] = this.dateFormater(body[data], format);
+            } else {
+                body[data] = null;
+            }
         }
         return body;
     }
