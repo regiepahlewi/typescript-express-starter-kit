@@ -1,7 +1,10 @@
 import { IResponse } from "../interface/response";
 import { IRequestValidator } from "../interface/request";
+import * as moment from 'moment';
 
 export class BaseController {
+
+    private DATE_FORMAT: string = 'YYYY-MM-DD';
 
     commonResponse(status: number, data: any, err?: any): IResponse {
         const dataResponse = {
@@ -36,12 +39,26 @@ export class BaseController {
         return res;
     }
 
-    convertToNull(body: any, field: string[]): any{
-        for(const data of field){
-            if(body[data] === ''){
+    convertToNull(body: any, field: string[]): any {
+        for (const data of field) {
+            if (body[data] === '') {
                 body[data] = null
             }
         }
         return body
+    }
+
+    dateFormat(body: any, field: string[], format?: string): any {
+        for (const data of field) {
+            body[data] = this.dateFormater(body[data], format)
+        }
+        return body;
+    }
+
+    private dateFormater(date: string, format?: string) {
+        let dateConvert = Date.parse(date);
+        const dateFormat = (format) ? format : this.DATE_FORMAT;
+        const momentFormat = moment(dateConvert).format(dateFormat);
+        return momentFormat;
     }
 }
