@@ -12,12 +12,16 @@ export class RegistrationController extends BaseController implements IControlle
     res: IResponse;
     validator: IRequestValidator[];
 
-    private userRepository = getRepository(Registration);
+    private registrationRepository = getRepository(Registration);
 
     async all(request: Request, response: Response, next: NextFunction) {
-        const data = await this.userRepository.find();
-        this.res = this.commonResponse(200, data);
-        return this.res;
+        try {
+            const data = await this.registrationRepository.find();
+            this.res = this.commonResponse(200, data);
+            return this.res;
+        } catch (err) {
+            return this.res = this.commonResponse(500, StringConstants.MSG_ERROR_500);
+        }
     }
 
     async save(request: Request, response: Response, next: NextFunction) {
@@ -35,14 +39,17 @@ export class RegistrationController extends BaseController implements IControlle
             if (validate.length > 0) {
                 this.res = this.commonResponse(400, validate);
             } else {
-                const save = await this.userRepository.save(request.body);
-                if (save) {
+                const checkEmail = await this.registrationRepository.count({ email: request.body.email });
+                if (checkEmail > 0) {
+                    const message = StringConstants.MSG_EMAIL_ALREADY_TAKEN + ' : ' + request.body.email;
+                    this.res = this.commonResponse(400, message);
+                } else {
+                    const save = await this.registrationRepository.save(request.body);
                     this.res = this.commonResponse(201, StringConstants.MSG_SUCCESS_INSERT);
                 }
             }
             return this.res;
         } catch (err) {
-            console.log(err.sqlMessage);
             return this.res = this.commonResponse(500, StringConstants.MSG_ERROR_500, err.sqlMessage);
         }
 
