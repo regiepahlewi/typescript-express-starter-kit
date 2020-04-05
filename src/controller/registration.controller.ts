@@ -44,7 +44,7 @@ export class RegistrationController extends BaseController implements IControlle
                     const message = StringConstants.MSG_EMAIL_ALREADY_TAKEN + ' : ' + request.body.email;
                     this.res = this.commonResponse(400, message);
                 } else {
-                    const save = await this.registrationRepository.save(request.body);
+                    await this.registrationRepository.save(request.body);
                     this.res = this.commonResponse(201, StringConstants.MSG_SUCCESS_INSERT);
                 }
             }
