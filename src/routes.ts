@@ -1,15 +1,10 @@
-import { UserController } from "./controller/user.controller";
+import { RegistrationController } from "./controller/registration.controller";
 
 export const Routes = [
     {
-        method: "get",
-        route: "/users",
-        controller: UserController,
-        action: "all"
-    },{
         method: "post",
-        route: "/users",
-        controller: UserController,
+        route: "/registration",
+        controller: RegistrationController,
         action: "save"
     }
 ];
