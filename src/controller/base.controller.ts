@@ -3,9 +3,10 @@ import { IRequestValidator } from "../interface/request";
 
 export class BaseController {
 
-    commonResponse(status: number, data: any): IResponse {
+    commonResponse(status: number, data: any, err?: any): IResponse {
         const dataResponse = {
-            data: data
+            data: data,
+            error: err
         }
         const res = {
             status: status,
@@ -17,6 +18,7 @@ export class BaseController {
     validateRequest(body: any, field: IRequestValidator[]) {
 
         const res = [];
+        const message = [];
 
         for (let i = 0; i < field.length; i++) {
             if (field[i].validation === 'required') {
@@ -24,10 +26,6 @@ export class BaseController {
                     !Object.values(body)[Object.keys(body).findIndex(val => val === field[i].name)]) {
                     res.push(field[i].name + ' is required')
                 }
-            } else if (field[i].validation === 'min') {
-
-            } else if (field[i].validation === 'max') {
-
             } else if (field[i].validation === 'regex') {
 
             } else {
@@ -36,5 +34,14 @@ export class BaseController {
         }
 
         return res;
+    }
+
+    convertToNull(body: any, field: string[]): any{
+        for(const data of field){
+            if(body[data] === ''){
+                body[data] = null
+            }
+        }
+        return body
     }
 }
