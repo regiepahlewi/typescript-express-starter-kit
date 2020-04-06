@@ -39,7 +39,7 @@ export class RegistrationController extends BaseController implements IControlle
             if (validate.length > 0) {
                 this.res = this.commonResponse(400, validate);
             } else {
-                const checkMobileNumber = await this.registrationRepository.count({ email: request.body.mobileNumber });
+                const checkMobileNumber = await this.registrationRepository.count({ mobileNumber: request.body.mobileNumber });
                 const checkEmail = await this.registrationRepository.count({ email: request.body.email });
 
                 if (checkMobileNumber > 0) {
