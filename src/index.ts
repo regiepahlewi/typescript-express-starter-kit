@@ -2,6 +2,7 @@ import "reflect-metadata";
 import { createConnection } from "typeorm";
 import * as express from "express";
 import * as bodyParser from "body-parser";
+import * as cors from "cors";
 import { Request, Response } from "express";
 import { Routes } from "./routes";
 
@@ -17,7 +18,7 @@ createConnection().then(async connection => {
             const result = (new (route.controller as any))[route.action](req, res, next);
             if (result instanceof Promise) {
                 result.then(result => {
-                    if(result !== null && result !== undefined){
+                    if (result !== null && result !== undefined) {
                         res.status(result.status);
                         res.json(result.data);
                     } else {
@@ -32,7 +33,14 @@ createConnection().then(async connection => {
     });
 
     // setup express app here
-    // ...
+    const options: cors.CorsOptions = {
+        allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "X-Access-Token"],
+        credentials: true,
+        methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",
+        origin: '*',
+        preflightContinue: false
+    };
+    app.use(cors(options));
 
     // start express server
     app.listen(3000);

@@ -4,12 +4,14 @@
    "author": "Regie Algi Pahlewi",
    "description": "Awesome project developed with TypeScript + TypeORM.",
    "devDependencies": {
-      "ts-node": "3.3.0",
+      "@types/cors": "^2.8.6",
       "@types/node": "^8.0.29",
+      "ts-node": "3.3.0",
       "typescript": "3.3.3333"
    },
    "dependencies": {
       "body-parser": "^1.18.1",
+      "cors": "^2.8.5",
       "express": "^4.15.4",
       "moment": "^2.24.0",
       "mysql": "^2.14.1",
