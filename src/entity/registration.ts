@@ -15,7 +15,7 @@ export class Registration {
     @Column({ unique: true, length: 100 })
     email: string;
 
-    @Column({ name: 'mobile_number', length: 15 })
+    @Column({ name: 'mobile_number', unique: true, length: 15 })
     mobileNumber: string;
 
     @Column({ type: 'date', nullable: true })

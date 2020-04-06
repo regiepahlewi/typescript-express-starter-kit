@@ -35,14 +35,17 @@ export class RegistrationController extends BaseController implements IControlle
 
             const validate = this.validateRequest(request.body, this.validator);
             request.body = this.dateFormat(request.body, ['dob']);
-            
-            console.log(request.body);
 
             if (validate.length > 0) {
                 this.res = this.commonResponse(400, validate);
             } else {
+                const checkMobileNumber = await this.registrationRepository.count({ email: request.body.mobileNumber });
                 const checkEmail = await this.registrationRepository.count({ email: request.body.email });
-                if (checkEmail > 0) {
+
+                if (checkMobileNumber > 0) {
+                    const message = StringConstants.MSG_MOBILE_NUMBER_ALREADY_TAKEN + ' : ' + request.body.mobileNumber;
+                    this.res = this.commonResponse(400, message);
+                } else if (checkEmail > 0) {
                     const message = StringConstants.MSG_EMAIL_ALREADY_TAKEN + ' : ' + request.body.email;
                     this.res = this.commonResponse(400, message);
                 } else {
