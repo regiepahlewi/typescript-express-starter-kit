@@ -4,21 +4,28 @@
    "author": "Regie Algi Pahlewi",
    "description": "Awesome project developed with TypeScript + TypeORM.",
    "devDependencies": {
+      "@types/chai-http": "^4.2.0",
       "@types/cors": "^2.8.6",
+      "@types/express": "^4.17.4",
+      "@types/mocha": "^7.0.2",
       "@types/node": "^8.0.29",
       "ts-node": "3.3.0",
       "typescript": "3.3.3333"
    },
    "dependencies": {
       "body-parser": "^1.18.1",
+      "chai": "^4.2.0",
+      "chai-http": "^4.3.0",
       "cors": "^2.8.5",
       "express": "^4.15.4",
+      "mocha": "^7.1.1",
       "moment": "^2.24.0",
       "mysql": "^2.14.1",
       "reflect-metadata": "^0.1.10",
       "typeorm": "0.2.24"
    },
    "scripts": {
-      "start": "ts-node src/index.ts"
+      "start": "ts-node src/index.ts",
+      "test": "mocha -r ts-node/register src/**/*.spec.ts"
    }
 }
