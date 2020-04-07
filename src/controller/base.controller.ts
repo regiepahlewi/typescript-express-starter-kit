@@ -24,12 +24,16 @@ export class BaseController {
 
         for (let i = 0; i < field.length; i++) {
             if (field[i].validation === 'required') {
-                if (Object.values(body)[Object.keys(body).findIndex(val => val === field[i].name)] === '' ||
-                    !Object.values(body)[Object.keys(body).findIndex(val => val === field[i].name)]) {
+                if (body[field[i].name] === '' ||
+                    !body[field[i].name]) {
                     res.push(field[i].name + ' is required')
                 }
             } else if (field[i].validation === 'regex') {
-
+                const regex = new RegExp(field[i].regex);
+                const data: string = body[field[i].name]
+                if (!regex.test(data)) {
+                    res.push(field[i].name + ' is invalid format')
+                }
             } else {
                 return;
             }
