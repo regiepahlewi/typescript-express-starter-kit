@@ -31,7 +31,6 @@ Routes.forEach(route => {
                 }
             });
         } else if (result !== null && result !== undefined) {
-            console.log('here2');
             res.json(result);
         }
     });
