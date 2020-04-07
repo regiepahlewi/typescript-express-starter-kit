@@ -47,6 +47,20 @@ describe('GET & Post Request  Unit Test', () => {
             })
     })
 
+    it('checking email & mobile number field', () => {
+        return chai.request(app).post('/registration').send({
+            firstName: 'Regie',
+            lastName: 'Pahlewi',
+            dob: "2018/05/18",
+            gender: 1,
+            email: 'wrongformat',
+            mobileNumber: '085691580504'
+        })
+            .then(res => {
+                expect(res.status).to.equal(400);
+            })
+    })
+
     it('checking unique email', () => {
         return chai.request(app).post('/registration').send({
             firstName: '',
