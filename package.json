@@ -26,6 +26,7 @@
    },
    "scripts": {
       "start": "ts-node src/index.ts",
-      "test": "mocha -r ts-node/register src/**/*.spec.ts"
+      "test": "mocha -r ts-node/register src/**/*.spec.ts",
+      "build": "tsc -p ."
    }
 }
