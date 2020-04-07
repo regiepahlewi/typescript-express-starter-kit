@@ -29,7 +29,9 @@ export class RegistrationController extends BaseController implements IControlle
                 { name: 'firstName', validation: 'required' },
                 { name: 'lastName', validation: 'required' },
                 { name: 'email', validation: 'required' },
+                { name: 'email', validation: 'regex', regex: StringConstants.REGEX_EMAIL },
                 { name: 'mobileNumber', validation: 'required' },
+                { name: 'mobileNumber', validation: 'regex', regex: StringConstants.REGEX_PHONE_NUMBER_INA },
             ]
 
             const validate = this.validateRequest(request.body, this.validator);
