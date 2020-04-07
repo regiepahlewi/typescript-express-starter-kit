@@ -5,6 +5,7 @@ import * as bodyParser from "body-parser";
 import * as cors from "cors";
 import { Request, Response } from "express";
 import { Routes } from "./routes";
+import loggerMiddleware from "./middleware/logger";
 
 createConnection().then(async connection => {
 
@@ -12,6 +13,7 @@ createConnection().then(async connection => {
     const app = express();
     app.use(cors());
     app.use(bodyParser.json());
+    app.use(loggerMiddleware);
 
     // register express routes from defined application routes
     Routes.forEach(route => {
@@ -35,8 +37,7 @@ createConnection().then(async connection => {
 
     // start express server
     app.listen(3000);
-
-    // insert new users for test
+    
     console.log("Express server has started on port 3000.");
 
 }).catch(error => console.log(error));
