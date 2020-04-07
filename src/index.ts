@@ -10,6 +10,7 @@ createConnection().then(async connection => {
 
     // create express app
     const app = express();
+    app.use(cors());
     app.use(bodyParser.json());
 
     // register express routes from defined application routes
@@ -31,16 +32,6 @@ createConnection().then(async connection => {
             }
         });
     });
-
-    // setup express app here
-    const options: cors.CorsOptions = {
-        allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "X-Access-Token"],
-        credentials: true,
-        methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",
-        origin: '*',
-        preflightContinue: false
-    };
-    app.use(cors(options));
 
     // start express server
     app.listen(3000);
