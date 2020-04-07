@@ -21,7 +21,6 @@ export class BaseController {
     validateRequest(body: any, field: IRequestValidator[]) {
 
         const res = [];
-        const message = [];
 
         for (let i = 0; i < field.length; i++) {
             if (field[i].validation === 'required') {
