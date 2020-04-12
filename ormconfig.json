@@ -2,9 +2,9 @@
    "type": "mysql",
    "host": "localhost",
    "port": 3306,
-   "username": "mitrais",
-   "password": "mitrais",
-   "database": "mitrais",
+   "username": "test",
+   "password": "test",
+   "database": "test",
    "synchronize": true,
    "logging": false,
    "entities": [
