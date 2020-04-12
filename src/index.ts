@@ -1,14 +1,16 @@
 import "reflect-metadata";
 import * as express from "express";
 import * as bodyParser from "body-parser";
+import * as helmet from "helmet";
 import * as cors from "cors";
-import loggerMiddleware from "./middleware/logger";
-import connectionMiddleware from "./middleware/connection";
+import loggerMiddleware from "./middlewares/logger";
+import connectionMiddleware from "./middlewares/connection";
 import routes from "./routes";
 
 // create express app
 const app = express();
 
+app.use(helmet());
 app.use(cors());
 app.use(bodyParser.json());
 app.use(loggerMiddleware);
