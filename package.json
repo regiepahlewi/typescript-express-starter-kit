@@ -2,7 +2,7 @@
    "name": "my-typescript-api-starter",
    "version": "2.0.0",
    "author": "Regie Algi Pahlewi",
-   "description": "Awesome project developed with TypeScript + TypeORM.",
+   "description": "Awesome project developed with TypeScript x Express x TypeORM.",
    "devDependencies": {
       "@types/bcryptjs": "^2.4.2",
       "@types/chai-http": "^4.2.0",
@@ -12,6 +12,7 @@
       "@types/jsonwebtoken": "^8.3.9",
       "@types/mocha": "^7.0.2",
       "@types/node": "^8.0.29",
+      "nodemon": "^2.0.3",
       "ts-node": "3.3.0",
       "typescript": "3.3.3333"
    },
@@ -32,8 +33,9 @@
       "typeorm": "0.2.24"
    },
    "scripts": {
-      "start": "ts-node src/index.ts",
+      "start": "npm run build:live",
       "test": "mocha -r ts-node/register src/**/*.spec.ts",
-      "build": "tsc -p ."
+      "build": "tsc -p .",
+      "build:live": "nodemon --watch '*.ts' --exec 'ts-node' src/index.ts"
    }
 }
