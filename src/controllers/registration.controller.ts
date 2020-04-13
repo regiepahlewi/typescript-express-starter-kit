@@ -6,6 +6,7 @@ import { IResponse } from "../interface/response";
 import { StringConstants } from "../constants/string.constants";
 import { IRequestValidator } from "../interface/request";
 import { Registration } from "../entity/registration";
+
 export class RegistrationController extends BaseController implements IController {
 
     res: IResponse;

@@ -1,12 +1,11 @@
 import { IResponse } from "../interface/response";
 import { IRequestValidator } from "../interface/request";
 import * as moment from 'moment';
+import { Config } from "../config/config";
 
 export class BaseController {
 
-    private DATE_FORMAT: string = 'YYYY-MM-DD';
-
-    commonResponse(status: number, data: any, err?: any): IResponse {
+    protected commonResponse(status: number, data: any, err?: any): IResponse {
         const dataResponse = {
             data: data,
             error: err
@@ -18,7 +17,7 @@ export class BaseController {
         return res;
     }
 
-    validateRequest(body: any, field: IRequestValidator[]) {
+    protected validateRequest(body: any, field: IRequestValidator[]) {
 
         const res = [];
 
@@ -42,7 +41,7 @@ export class BaseController {
         return res;
     }
 
-    convertToNull(body: any, field: string[]): any {
+    protected convertToNull(body: any, field: string[]): any {
         for (const data of field) {
             if (body[data] === '') {
                 body[data] = null
@@ -51,7 +50,7 @@ export class BaseController {
         return body
     }
 
-    dateFormat(body: any, field: string[], format?: string): any {
+    protected dateFormat(body: any, field: string[], format?: string): any {
         for (const data of field) {
             if (body[data] !== '' && body[data]) {
                 body[data] = this.dateFormater(body[data], format);
@@ -64,7 +63,7 @@ export class BaseController {
 
     private dateFormater(date: string, format?: string) {
         let dateConvert = Date.parse(date);
-        const dateFormat = (format) ? format : this.DATE_FORMAT;
+        const dateFormat = (format) ? format : Config.DATE_FORMAT;
         const momentFormat = moment(dateConvert).format(dateFormat);
         return momentFormat;
     }
