@@ -1,9 +1,12 @@
-import App from './app';
 import * as bodyParser from 'body-parser';
 import * as helmet from "helmet";
 import * as cors from "cors";
+import * as dotenv from "dotenv";
 import loggerMiddleware from './middlewares/logger';
+import App from './app';
 import AppRoute from './routes';
+
+dotenv.config();
 
 const app = new App({
     controllers: AppRoute,
@@ -11,7 +14,9 @@ const app = new App({
         bodyParser.json(),
         bodyParser.urlencoded({ extended: true }),
         loggerMiddleware,
-        cors(),
+        cors({
+            origin: process.env.CORS_FILTER
+        }),
         helmet()
     ]
 })
