@@ -1,4 +1,5 @@
 const path = require('path');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   name: 'deployment',
@@ -24,5 +25,9 @@ module.exports = {
   },
   optimization: {
     usedExports: true,
+    minimize: false
   },
+  plugins: [
+    new Dotenv()
+  ]
 };
