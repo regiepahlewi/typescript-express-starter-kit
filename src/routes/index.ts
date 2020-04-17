@@ -1,8 +1,7 @@
-import { Router } from "express";
-import registration from "./registration";
+import RegistrationRoute from "./registration.route";
 
-const routes = Router();
+const AppRoute = [
+    new RegistrationRoute()
+]
 
-routes.use("/registration", registration);
-
-export default routes;
+export default AppRoute
