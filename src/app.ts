@@ -2,7 +2,6 @@ import * as express from 'express'
 import * as dotenv from "dotenv";
 import { Application } from 'express'
 import { createConnection, Connection } from "typeorm";
-import { Config } from './config/config';
 import Entities from './entity';
 
 class App {
