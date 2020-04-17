@@ -14,8 +14,11 @@
       "@types/mocha": "^7.0.2",
       "@types/node": "^8.0.29",
       "nodemon": "^2.0.3",
+      "ts-loader": "^7.0.0",
       "ts-node": "3.3.0",
-      "typescript": "3.3.3333"
+      "typescript": "3.3.3333",
+      "webpack": "^4.42.1",
+      "webpack-cli": "^3.3.11"
    },
    "dependencies": {
       "bcryptjs": "^2.4.3",
@@ -37,7 +40,7 @@
    "scripts": {
       "start": "npm run build:live",
       "test": "mocha -r ts-node/register src/**/*.spec.ts",
-      "build": "tsc -p .",
+      "build": "webpack",
       "build:live": "nodemon --watch '*.ts' --exec 'ts-node' src/index.ts"
    }
 }
