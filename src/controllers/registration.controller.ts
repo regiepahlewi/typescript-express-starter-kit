@@ -1,32 +1,24 @@
-import { getRepository } from "typeorm";
 import { NextFunction, Request, Response } from "express";
-import { BaseController } from "./base.controller";
-import { IController } from "../interface/controller";
-import { IResponse } from "../interface/response";
 import { StringConstants } from "../constants/string.constants";
+import { getRegistrationRepository } from "../repository/registration.repository";
+import { commonResponse, validateRequest, dateFormat } from "../common/common.utils";
 import { IRequestValidator } from "../interface/request";
-import { Registration } from "../entity/registration";
 
-export class RegistrationController extends BaseController implements IController {
+export class RegistrationController {
 
-    res: IResponse;
-    validator: IRequestValidator[];
-
-    private registrationRepository = getRepository(Registration);
-
-    async all(request: Request, response: Response, next: NextFunction) {
+    async all(req: Request, res: Response, next: NextFunction) {
         try {
-            const data = await this.registrationRepository.find();
-            this.res = this.commonResponse(200, data);
-            return this.res;
+            const data = await getRegistrationRepository().find();
+            res.json(commonResponse(200, data))
         } catch (err) {
-            return this.res = this.commonResponse(500, StringConstants.MSG_ERROR_500);
+            res.json(commonResponse(500,StringConstants.MSG_ERROR_500))
         }
     }
 
-    async save(request: Request, response: Response, next: NextFunction) {
+    async save(req: Request, res: Response, next: NextFunction) {
         try {
-            this.validator = [
+
+            const validator: IRequestValidator[] = [
                 { name: 'firstName', validation: 'required' },
                 { name: 'lastName', validation: 'required' },
                 { name: 'email', validation: 'required' },
@@ -35,29 +27,28 @@ export class RegistrationController extends BaseController implements IControlle
                 { name: 'mobileNumber', validation: 'regex', regex: StringConstants.REGEX_PHONE_NUMBER_INA },
             ]
 
-            const validate = this.validateRequest(request.body, this.validator);
-            request.body = this.dateFormat(request.body, ['dob']);
+            const validate = validateRequest(req.body, validator);
+            req.body = dateFormat(req.body, ['dob']);
 
             if (validate.length > 0) {
-                this.res = this.commonResponse(400, validate);
+                res.json(commonResponse(400, validate));
             } else {
-                const checkMobileNumber = await this.registrationRepository.count({ mobileNumber: request.body.mobileNumber });
-                const checkEmail = await this.registrationRepository.count({ email: request.body.email });
+                const checkMobileNumber = await getRegistrationRepository().count({ mobileNumber: req.body.mobileNumber });
+                const checkEmail = await getRegistrationRepository().count({ email: req.body.email });
 
                 if (checkMobileNumber > 0) {
-                    const message = StringConstants.MSG_MOBILE_NUMBER_ALREADY_TAKEN + ' : ' + request.body.mobileNumber;
-                    this.res = this.commonResponse(400, message);
+                    const message = StringConstants.MSG_MOBILE_NUMBER_ALREADY_TAKEN + ' : ' + req.body.mobileNumber;
+                    res.json(commonResponse(400, message));
                 } else if (checkEmail > 0) {
-                    const message = StringConstants.MSG_EMAIL_ALREADY_TAKEN + ' : ' + request.body.email;
-                    this.res = this.commonResponse(400, message);
+                    const message = StringConstants.MSG_EMAIL_ALREADY_TAKEN + ' : ' + req.body.email;
+                    res.json(commonResponse(400, message));
                 } else {
-                    await this.registrationRepository.save(request.body);
-                    this.res = this.commonResponse(201, StringConstants.MSG_SUCCESS_INSERT);
+                    await getRegistrationRepository().save(req.body);
+                    res.json(commonResponse(201, StringConstants.MSG_SUCCESS_INSERT));
                 }
             }
-            return this.res;
         } catch (err) {
-            return this.res = this.commonResponse(500, StringConstants.MSG_ERROR_500, err.sqlMessage);
+            res.json(commonResponse(500, StringConstants.MSG_ERROR_500, err.sqlMessage));
         }
 
     }
