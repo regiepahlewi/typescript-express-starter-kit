@@ -1,33 +1,21 @@
-import "reflect-metadata";
-import * as express from "express";
-import * as bodyParser from "body-parser";
+import App from './app';
+import * as bodyParser from 'body-parser';
 import * as helmet from "helmet";
 import * as cors from "cors";
-import loggerMiddleware from "./middlewares/logger";
-import connectionMiddleware from "./middlewares/connection";
-import routes from "./routes";
+import loggerMiddleware from './middlewares/logger';
+import AppRoute from './routes';
 
-// create express app
-const app = express();
+const app = new App({
+    controllers: AppRoute,
+    middlewares: [
+        bodyParser.json(),
+        bodyParser.urlencoded({ extended: true }),
+        loggerMiddleware,
+        cors(),
+        helmet()
+    ]
+})
 
-app.use(helmet());
-app.use(cors());
-app.use(bodyParser.json());
-app.use(loggerMiddleware);
+app.listen();
 
-//create connection
-connectionMiddleware();
-
-//register routes
-app.use('/',routes);
-
-// start express server
-app.listen(3000);
-console.log("Express server has started on port 3000.");
-
-export default app;
-
-
-
-
-
+export default app
