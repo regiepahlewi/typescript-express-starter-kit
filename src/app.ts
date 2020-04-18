@@ -54,7 +54,7 @@ class App {
                 console.log('INFO : Database has been connected successfully.')
             }
         } catch (err) {
-            console.log(err);
+            console.log('EXCEPTION : ',err);
         }
     }
 
