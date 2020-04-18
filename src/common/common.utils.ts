@@ -15,7 +15,6 @@ export function responseForPagination(res: Response, data: IPagination){
 }
 
 export function responseException(res: Response, err: any, msg?: any) {
-    console.log(process.env.DEBUG_ON);
     const data = (process.env.DEBUG_ON == "true") ? { data: msg || StringConstants.MSG_ERROR_500, error: err } : { data: StringConstants.MSG_ERROR_500 }
     if(process.env.DEBUG_ON == "false"){
         console.error('EXCEPTION : ', err)
