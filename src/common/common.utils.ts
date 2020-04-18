@@ -1,7 +1,7 @@
 import * as moment from 'moment';
+import * as dotenv from "dotenv";
 import { IResponse } from "../interface/response";
 import { IRequestValidator } from "../interface/request";
-import { Config } from "../config/config";
 
 export function commonResponse(status: number, data: any, err?: any): IResponse {
     const dataResponse = {
@@ -60,8 +60,10 @@ export function dateFormat(body: any, field: string[], format?: string): any {
 }
 
 export function dateFormater(date: string, format?: string) {
+    dotenv.config();
+
     let dateConvert = Date.parse(date);
-    const dateFormat = (format) ? format : Config.DATE_FORMAT;
+    const dateFormat = (format) ? format : process.env.DATE_FORMAT;
     const momentFormat = moment(dateConvert).format(dateFormat);
     return momentFormat;
 }
