@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { StringConstants } from "../constants/string.constants";
 import { getRegistrationRepository } from "../repository/registration.repository";
-import { validateRequest, dateFormat } from "../common/common.utils";
+import { validateRequest, dateFormat, responseException, responseJson } from "../common/common.utils";
 import { IRequestValidator } from "../interface/request";
 
 export class RegistrationController {
@@ -9,10 +9,9 @@ export class RegistrationController {
     async all(req: Request, res: Response, next: NextFunction) {
         try {
             const data = await getRegistrationRepository().find();
-            res.json(data)
+            responseJson(res, data);
         } catch (err) {
-            res.status(500)
-            res.json(StringConstants.MSG_ERROR_500)
+            responseException(res, err)
         }
     }
 
@@ -32,29 +31,24 @@ export class RegistrationController {
             req.body = dateFormat(req.body, ['dob']);
 
             if (validate.length > 0) {
-                res.status(400)
-                res.json({ data: validate });
+                responseJson(res, validate, 400);
             } else {
                 const checkMobileNumber = await getRegistrationRepository().count({ mobileNumber: req.body.mobileNumber });
                 const checkEmail = await getRegistrationRepository().count({ email: req.body.email });
 
                 if (checkMobileNumber > 0) {
                     const message = StringConstants.MSG_MOBILE_NUMBER_ALREADY_TAKEN + ' : ' + req.body.mobileNumber;
-                    res.status(400)
-                    res.json({ data: message });
+                    responseJson(res, message, 400);
                 } else if (checkEmail > 0) {
                     const message = StringConstants.MSG_EMAIL_ALREADY_TAKEN + ' : ' + req.body.email;
-                    res.status(400)
-                    res.json({ data: message });
+                    responseJson(res, message, 400);
                 } else {
                     await getRegistrationRepository().save(req.body);
-                    res.status(201)
-                    res.json({ data: StringConstants.MSG_SUCCESS_INSERT });
+                    responseJson(res, StringConstants.MSG_SUCCESS_INSERT, 201);
                 }
             }
         } catch (err) {
-            res.status(500)
-            res.json({ data: StringConstants.MSG_ERROR_500 });
+            responseException(res, err);
         }
 
     }
