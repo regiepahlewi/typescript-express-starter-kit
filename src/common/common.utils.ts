@@ -1,19 +1,6 @@
 import * as moment from 'moment';
 import * as dotenv from "dotenv";
-import { IResponse } from "../interface/response";
 import { IRequestValidator } from "../interface/request";
-
-export function commonResponse(status: number, data: any, err?: any): IResponse {
-    const dataResponse = {
-        data: data,
-        error: err
-    }
-    const res = {
-        status: status,
-        data: dataResponse
-    }
-    return res;
-}
 
 export function validateRequest(body: any, field: IRequestValidator[]) {
 
