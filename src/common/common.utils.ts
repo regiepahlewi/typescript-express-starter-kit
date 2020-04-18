@@ -1,5 +1,4 @@
 import * as moment from 'moment';
-import * as dotenv from "dotenv";
 import { IRequestValidator } from "../interface/request";
 import { Response } from 'express';
 import { StringConstants } from '../constants/string.constants';
@@ -16,6 +15,7 @@ export function responseForPagination(res: Response, data: IPagination){
 }
 
 export function responseException(res: Response, err: any, msg?: any) {
+    console.log(process.env.DEBUG_ON);
     const data = (process.env.DEBUG_ON == "true") ? { data: msg || StringConstants.MSG_ERROR_500, error: err } : { data: StringConstants.MSG_ERROR_500 }
     if(process.env.DEBUG_ON == "false"){
         console.error('EXCEPTION : ', err)
@@ -69,8 +69,6 @@ export function dateFormat(body: any, field: string[], format?: string): any {
 }
 
 export function dateFormater(date: string, format?: string) {
-    dotenv.config();
-
     let dateConvert = Date.parse(date);
     const dateFormat = (format) ? format : process.env.DATE_FORMAT;
     const momentFormat = moment(dateConvert).format(dateFormat);
