@@ -52,7 +52,7 @@ class App {
                 }
             });
             if (connection) {
-                console.log('INFO : database has been connected successfully.')
+                console.log('INFO : Database has been connected successfully.')
             }
         } catch (err) {
             console.log(err);
