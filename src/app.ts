@@ -12,6 +12,7 @@ class App {
         this.app = express();
         this.connectPort();
         this.middlewares(appInit.middlewares);
+
         this.connectToDatabase().then(data => {
             this.routes(appInit.controllers);
         });
@@ -24,7 +25,6 @@ class App {
     }
 
     private routes(controllers: { forEach: (arg0: (controller: any) => void) => void; }) {
-        dotenv.config();
         controllers.forEach(controller => {
             this.app.use(process.env.BASE_ENDPONINT, controller.router)
         })
@@ -32,7 +32,6 @@ class App {
 
     private async connectToDatabase() {
         try {
-            dotenv.config();
             const connection = await createConnection({
                 type: 'mariadb',
                 host: process.env.DATABASE_HOST,
