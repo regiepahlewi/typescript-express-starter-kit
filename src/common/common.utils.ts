@@ -1,6 +1,6 @@
 import * as moment from 'moment';
 import { IRequestValidator } from "../interface/request";
-import { Response } from 'express';
+import { Response, Request } from 'express';
 import { StringConstants } from '../constants/string.constants';
 import { IPagination } from '../interface/pagination';
 
@@ -14,10 +14,15 @@ export function responseForPagination(res: Response, data: IPagination){
     res.json(data)
 }
 
-export function responseException(res: Response, err: any, msg?: any) {
-    const data = (process.env.DEBUG_ON == "true") ? { data: msg || StringConstants.MSG_ERROR_500, error: err } : { data: StringConstants.MSG_ERROR_500 }
-    if(process.env.DEBUG_ON == "false"){
-        console.error('EXCEPTION : ', err)
+export function responseException(req: Request, res: Response, err: any, msg?: any) {
+    const data = (process.env.PRODUCTION == "false") ? { data: msg || StringConstants.MSG_ERROR_500, url: req.url ,payload : req.body, error: err } : { data: StringConstants.MSG_ERROR_500 }
+    if(process.env.PRODUCTION == "true"){
+        const today = Date.now();
+        console.error('=== START ERROR LOG ', moment(today).format(process.env.DATETIME_FORMAT), "===");
+        console.error('URL :', req.url);
+        console.error('PAYLOAD :', req.body);
+        console.error('ERROR : ', err);
+        console.error('=== END ERROR LOG ', moment(today).format(process.env.DATETIME_FORMAT), "===");
     }
     res.status(500)
     res.json(data)

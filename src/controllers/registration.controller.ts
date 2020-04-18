@@ -11,7 +11,7 @@ export class RegistrationController {
             const data = await getRegistrationRepository().find();
             responseJson(res, data);
         } catch (err) {
-            responseException(res, err)
+            responseException(req, res, err)
         }
     }
 
@@ -48,7 +48,7 @@ export class RegistrationController {
                 }
             }
         } catch (err) {
-            responseException(res, err);
+            responseException(req, res, err);
         }
 
     }
