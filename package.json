@@ -1,6 +1,6 @@
 {
    "name": "my-typescript-api-starter",
-   "version": "2.0.0",
+   "version": "2.1.0",
    "author": "Regie Algi Pahlewi",
    "description": "Awesome project developed with TypeScript x Express x TypeORM.",
    "devDependencies": {
