@@ -41,7 +41,7 @@
    "scripts": {
       "start": "npm run build:live",
       "test": "mocha -r ts-node/register src/**/*.spec.ts",
-      "build": "webpack",
+      "build:prod": "webpack",
       "build:live": "nodemon --watch '*.ts' --exec 'ts-node' src/index.ts"
    }
 }

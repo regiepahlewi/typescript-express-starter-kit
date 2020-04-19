@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from "express";
 import * as jwt from "jsonwebtoken";
-import { Config } from "../config/config";
 
 export const jwtMiddleware = (req: Request, res: Response, next: NextFunction) => {
     //Get the jwt token from the head
@@ -9,7 +8,7 @@ export const jwtMiddleware = (req: Request, res: Response, next: NextFunction) =
 
     //Try to validate the token and get data
     try {
-        jwtPayload = <any>jwt.verify(token, Config.JWT_SECRET);
+        jwtPayload = <any>jwt.verify(token, process.env.JWT_SECRET);
 
         //user verify code here, for verify token with correct user
 

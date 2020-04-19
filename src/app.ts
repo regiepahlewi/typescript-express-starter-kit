@@ -34,13 +34,13 @@ class App {
         try {
             const connection = await createConnection({
                 type: 'mariadb',
-                host: process.env.DATABASE_HOST,
-                port: parseInt(process.env.DATABASE_PORT),
-                database: process.env.DATABASE_NAME,
-                username: process.env.DATABASE_USERNAME,
-                password: process.env.DATABASE_PASSWORD,
-                synchronize: true,
-                logging: false,
+                host: (process.env.PRODUCTION == 'true') ? process.env.DATABASE_PROD_HOST : process.env.DATABASE_HOST,
+                port: (process.env.PRODUCTION == 'true') ? parseInt(process.env.DATABASE_PROD_PROD): parseInt(process.env.DATABASE_PORT),
+                database: (process.env.PRODUCTION == 'true') ? process.env.DATABASE_PROD_NAME : process.env.DATABASE_NAME,
+                username: (process.env.PRODUCTION == 'true') ? process.env.DATABASE_PROD_USERNAME : process.env.DATABASE_USERNAME,
+                password: (process.env.PRODUCTION == 'true') ? process.env.DATABASE_PROD_PASSWORD : process.env.DATABASE_PASSWORD,
+                synchronize: (process.env.DATABASE_SYNCHRONIZE == 'true') ? true : false,
+                logging: (process.env.DATABASE_LOGGING == 'true') ? true : false,
                 entities: Entities,
                 migrations: [],
                 subscribers: [],
@@ -65,7 +65,8 @@ class App {
 
     listen(): void {
         this.app.listen(this.port, () => {
-            console.log(`App listening on the http://localhost:${this.port}`)
+            const appMode = (process.env.PRODUCTION == 'false') ? 'development' : 'production'
+            console.log(`App listening on the http://localhost:${this.port} with ${appMode} mode`)
         })
     }
 }
